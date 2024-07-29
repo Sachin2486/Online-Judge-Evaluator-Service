@@ -3,8 +3,13 @@ import serverConfig from './config/serverConfig';
 import apiRouter from './routes';
 import sampleQueueProducer from './producers/sampleQueueProducer';
 import SampleWorker from './workers/sampleWorker';
+import bodyParser from 'body-parser';
 
 const app: Express = express();
+
+app.use(bodyParser.urlencoded());
+app.use(bodyParser.json());
+app.use(bodyParser.text());
 
 app.use('/api', apiRouter)
 
