@@ -1,13 +1,20 @@
 import { ZodSchema } from "zod/lib"
-import { CreateSubmissionDto } from "../dtos/createSubmissionDto"
-import { NextFunction } from "express"
+import { NextFunction, Request, Response } from "express"
 
-export const validateCreateSubmissionDTO = (schema: ZodSchema<CreateSubmissionDto>) => (req: Request, res: Response, next: NextFunction) => {
+export const validate = (schema: ZodSchema<any>) => (req: Request, res: Response, next: NextFunction) => {
     try {
         schema.parse({
             ...req.body
-        })
+        });
+
+        next();
     } catch (error) {
-        
+        console.log(error);
+        return res.status(400).json({
+            success : false,
+            message : 'Invalid request params received',
+            data : {},
+            error: error
+        });
     }
-}
+};
